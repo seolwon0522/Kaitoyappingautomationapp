@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 218 11% 9%;
+    --card: 0 0% 100%;
+    --card-foreground: 218 11% 9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 218 11% 9%;
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 9% 95%;
+    --secondary-foreground: 218 11% 9%;
+    --muted: 220 9% 95%;
+    --muted-foreground: 218 3% 56%;
+    --accent: 210 100% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 9% 90%;
+    --input: 220 9% 90%;
+    --ring: 210 100% 50%;
+    --radius: 0.875rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", sans-serif;
+    font-weight: 700;
+  }
+}
+
+/* iOS 18 Typography System */
+.ios-large-title {
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 41px;
+  letter-spacing: 0.37px;
+}
+
+.ios-title-1 {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 34px;
+  letter-spacing: 0.36px;
+}
+
+.ios-title-2 {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 28px;
+  letter-spacing: 0.35px;
+}
+
+.ios-title-3 {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24px;
+  letter-spacing: 0.38px;
+}
+
+.ios-headline {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: -0.41px;
+}
+
+.ios-body {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.41px;
+}
+
+.ios-callout {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21px;
+  letter-spacing: -0.32px;
+}
+
+.ios-subhead {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -0.24px;
+}
+
+.ios-footnote {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: -0.08px;
+}
+
+.ios-caption-1 {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: 0;
+}
+
+.ios-caption-2 {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 13px;
+  letter-spacing: 0.06px;
+}
+
+/* iOS Component Styles */
+.ios-card {
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+}
+
+.ios-separator {
+  height: 0.5px;
+  background: rgba(60, 60, 67, 0.18);
+}
+
+.ios-separator-inset {
+  margin-left: 16px;
+}
+
+/* iOS Interaction States */
+.ios-touchable {
+  transition: background-color 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.ios-touchable:active {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.ios-button-primary {
+  transition: opacity 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ios-button-primary:active {
+  opacity: 0.6;
+}
+
+/* Coin Badge Styles */
+.coin-badge-1 {
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  box-shadow: 0 1px 2px rgba(255, 215, 0, 0.25);
+}
+
+.coin-badge-2 {
+  background: linear-gradient(135deg, #E8E8E8 0%, #C0C0C0 100%);
+  box-shadow: 0 1px 2px rgba(192, 192, 192, 0.25);
+}
+
+.coin-badge-3 {
+  background: linear-gradient(135deg, #CD7F32 0%, #B87333 100%);
+  box-shadow: 0 1px 2px rgba(205, 127, 50, 0.25);
+}
+
+.coin-badge-4,
+.coin-badge-5 {
+  background: #F2F3F5;
+  color: #6B7280;
+}
+
+/* Tab Bar */
+.ios-tab-bar {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 0.5px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Status Indicators */
+.status-active {
+  background: #34C759;
+}
+
+.status-paused {
+  background: #8E8E93;
+}
+
+.status-scheduled {
+  background: #FF9500;
+}
+
+.status-completed {
+  background: #007AFF;
+}
