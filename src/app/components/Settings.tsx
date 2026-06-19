@@ -1,12 +1,17 @@
-import { ChevronRight, User, Key, Bell, Info, DollarSign } from "lucide-react";
+import { ChevronRight, User, Key, Bell, Info, DollarSign, Moon, Layers } from "lucide-react";
 import { useState } from "react";
+import { demoUser, supportedCoins, appMeta } from "../data";
+import { DEMO_NOW, formatMonthLabel } from "../utils/date";
 
 interface SettingsProps {
   onTestConnection: () => void;
   onLogout: () => void;
+  onNavigate: (screen: string) => void;
+  isDark: boolean;
+  onToggleDark: () => void;
 }
 
-export function Settings({ onTestConnection, onLogout }: SettingsProps) {
+export function Settings({ onTestConnection, onLogout, onNavigate, isDark, onToggleDark }: SettingsProps) {
   const [notifications, setNotifications] = useState(true);
 
   return (
@@ -21,15 +26,15 @@ export function Settings({ onTestConnection, onLogout }: SettingsProps) {
           <div className="ios-card overflow-hidden">
             <div className="px-4 py-3.5 flex items-center gap-3 border-b border-[#E5E7EB]">
               <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#007AFF] to-[#5856D6] flex items-center justify-center overflow-hidden">
-                <img 
-                  src="https://api.dicebear.com/7.x/avataaars/svg?seed=siyeon2025" 
-                  alt="Profile" 
+                <img
+                  src={demoUser.avatar}
+                  alt="Profile"
                   className="w-full h-full"
                 />
               </div>
               <div className="flex-1">
-                <p className="ios-body text-[#111827]" style={{ fontWeight: 600 }}>박시연</p>
-                <p className="ios-caption-1 text-[#8E8E93]">@crypto_siyeon · 18.2K</p>
+                <p className="ios-body text-[#111827]" style={{ fontWeight: 600 }}>{demoUser.name}</p>
+                <p className="ios-caption-1 text-[#8E8E93]">{demoUser.handle} · {demoUser.followers}</p>
               </div>
             </div>
             <button className="w-full px-4 py-3.5 flex items-center justify-between ios-touchable">
@@ -37,7 +42,7 @@ export function Settings({ onTestConnection, onLogout }: SettingsProps) {
                 <Key className="w-5 h-5 text-[#8E8E93]" />
                 <div>
                   <p className="ios-body text-[#111827]">API 키 관리</p>
-                  <p className="ios-caption-1 text-[#8E8E93]">••••••••••8f2d</p>
+                  <p className="ios-caption-1 text-[#8E8E93]">{demoUser.apiKeyMask}</p>
                 </div>
               </div>
               <ChevronRight className="w-5 h-5 text-[#C7C7CC]" strokeWidth={2.5} />
@@ -65,12 +70,28 @@ export function Settings({ onTestConnection, onLogout }: SettingsProps) {
               </button>
             </div>
             <div className="ios-separator ios-separator-inset"></div>
+            <div className="px-4 py-3.5 flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Moon className="w-5 h-5 text-[#8E8E93]" />
+                <p className="ios-body text-[#111827]">다크 모드</p>
+              </div>
+              <button onClick={onToggleDark}>
+                <div className={`w-12 h-7 rounded-full p-0.5 transition-colors ${
+                  isDark ? 'bg-[#34C759]' : 'bg-[#E5E7EB]'
+                }`}>
+                  <div className={`w-6 h-6 bg-white rounded-full transition-transform ${
+                    isDark ? 'translate-x-5' : ''
+                  }`}></div>
+                </div>
+              </button>
+            </div>
+            <div className="ios-separator ios-separator-inset"></div>
             <button className="w-full px-4 py-3.5 flex items-center justify-between ios-touchable">
               <div className="flex items-center gap-3">
                 <DollarSign className="w-5 h-5 text-[#8E8E93]" />
                 <div>
                   <p className="ios-body text-[#111827]">지원 코인</p>
-                  <p className="ios-caption-1 text-[#8E8E93]">8개 활성화</p>
+                  <p className="ios-caption-1 text-[#8E8E93]">{supportedCoins.length}개 활성화</p>
                 </div>
               </div>
               <ChevronRight className="w-5 h-5 text-[#C7C7CC]" strokeWidth={2.5} />
@@ -106,12 +127,26 @@ export function Settings({ onTestConnection, onLogout }: SettingsProps) {
               <ChevronRight className="w-5 h-5 text-[#C7C7CC]" strokeWidth={2.5} />
             </button>
             <div className="ios-separator ios-separator-inset"></div>
+            <button
+              onClick={() => onNavigate('pipeline')}
+              className="w-full px-4 py-3.5 flex items-center justify-between ios-touchable"
+            >
+              <div className="flex items-center gap-3">
+                <Layers className="w-5 h-5 text-[#8E8E93]" />
+                <div>
+                  <p className="ios-body text-[#111827]">팀 · 시스템 구조</p>
+                  <p className="ios-caption-1 text-[#8E8E93]">야핑팀 · 파이프라인</p>
+                </div>
+              </div>
+              <ChevronRight className="w-5 h-5 text-[#C7C7CC]" strokeWidth={2.5} />
+            </button>
+            <div className="ios-separator ios-separator-inset"></div>
             <div className="px-4 py-3.5 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Info className="w-5 h-5 text-[#8E8E93]" />
                 <p className="ios-body text-[#111827]">앱 버전</p>
               </div>
-              <p className="ios-body text-[#8E8E93]">1.2.0</p>
+              <p className="ios-body text-[#8E8E93]">{appMeta.version}</p>
             </div>
           </div>
         </div>
@@ -119,9 +154,9 @@ export function Settings({ onTestConnection, onLogout }: SettingsProps) {
         {/* Supported Coins */}
         <div className="px-5 pb-4">
           <div className="bg-[#F2F3F5] rounded-xl p-4">
-            <p className="ios-caption-1 text-[#8E8E93] mb-2">지원 코인 · 2025년 10월 기준</p>
+            <p className="ios-caption-1 text-[#8E8E93] mb-2">지원 코인 · {formatMonthLabel(DEMO_NOW)}</p>
             <div className="flex flex-wrap gap-2">
-              {['AI16Z', 'ELIZA', 'VIRTUAL', 'PRIME', 'RNDR', 'FET', 'AGIX', 'OCEAN'].map((coin) => (
+              {supportedCoins.map((coin) => (
                 <span key={coin} className="px-2.5 py-1.5 bg-white rounded-full border border-[#E5E7EB]">
                   <span className="ios-caption-2 text-[#6B7280]">${coin}</span>
                 </span>
@@ -142,8 +177,8 @@ export function Settings({ onTestConnection, onLogout }: SettingsProps) {
 
         {/* Footer */}
         <div className="px-5 pt-2 pb-4 text-center">
-          <p className="ios-caption-2 text-[#8E8E93]">야핑 자동화 시스템</p>
-          <p className="ios-caption-2 text-[#C7C7CC] mt-1">© 2025 Kaito Labs · v1.2.0</p>
+          <p className="ios-caption-2 text-[#8E8E93]">{appMeta.product}</p>
+          <p className="ios-caption-2 text-[#C7C7CC] mt-1">{appMeta.copyright}</p>
         </div>
       </div>
     </div>

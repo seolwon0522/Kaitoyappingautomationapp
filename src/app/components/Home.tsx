@@ -1,5 +1,16 @@
 import { ChevronRight, Play, Pause, CheckCircle } from "lucide-react";
 import { useState, useEffect } from "react";
+import {
+  demoUser,
+  topCoins,
+  scheduledPosts as initialPosts,
+  newPostTemplates,
+  autoPostTimes,
+  todayStats as todayStatsData,
+  revenueSeries,
+} from "../data";
+import { DEMO_NOW, formatDotDate, formatLongDate } from "../utils/date";
+import { AreaChart, Area, ResponsiveContainer, XAxis, Tooltip } from "recharts";
 
 interface HomeProps {
   onNavigate: (screen: string) => void;
@@ -9,105 +20,19 @@ interface HomeProps {
 
 export function Home({ onNavigate, onApprove, onOpenEditPost }: HomeProps) {
   const [isAutomationActive, setIsAutomationActive] = useState(true);
-  const [scheduledPosts, setScheduledPosts] = useState([
-    {
-      id: 1,
-      content: "AI16z 프레임워크 미쳤다 ㄷㄷ\n\n개발자들 사이에서 난리남\n엘리자봇 만드는데 10분컷 가능 🤖\n\n이거 진짜 게임체인저인듯\n\n#AI16z #Eliza #AIAgent",
-      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
-      coin: "AI16Z",
-      earnings: "$18.50",
-      engagement: 92,
-      scheduledTime: "오후 2:30",
-      status: "scheduled",
-      eta: "5분 후",
-      date: "2025.10.17"
-    },
-    {
-      id: 2,
-      content: "JOBY Aviation 드디어 상업 운항 승인 받았다고?\n\n하늘 나는 택시 시대 온다 🚁\n뉴욕-JFK 15분컷...\n\n교통체증 이제 안녕이네 ㅋㅋㅋ\n\n#JOBY #eVTOL #FlyingCar",
-      image: "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80",
-      coin: "PRIME",
-      earnings: "$15.80",
-      engagement: 88,
-      scheduledTime: "오후 3:15",
-      status: "scheduled",
-      eta: "20분 후",
-      date: "2025.10.17"
-    },
-    {
-      id: 3,
-      content: "삼성 갤럭시 AI 업데이트 진짜 실화냐\n\n통화 중 실시간 번역 + 요약까지 해줌 😱\n\n영어 못해도 글로벌 비즈니스 가능\n미래가 왔다...\n\n#GalaxyAI #Samsung #AI",
-      image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800&q=80",
-      coin: "VIRTUAL",
-      earnings: "$14.20",
-      engagement: 85,
-      scheduledTime: "오후 4:00",
-      status: "ready",
-      eta: "준비완료",
-      date: "2025.10.17"
-    },
-    {
-      id: 4,
-      content: "뉴진스 신곡 \"Time Travel\" 티저 떴는데\n\n민희진 표 감성 미쳤고요 💫\nY2K 바이브 + 미래형 비트 조합\n\n이번 주 금요일 발매\n벌써부터 기대됨 ㅠㅠ\n\n#NewJeans #TimeTravel #Kpop",
-      image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=800&q=80",
-      coin: "ELIZA",
-      earnings: "$12.60",
-      engagement: 81,
-      scheduledTime: "오후 5:30",
-      status: "scheduled",
-      eta: "1시간 후",
-      date: "2025.10.17"
-    }
-  ]);
+  const [scheduledPosts, setScheduledPosts] = useState(initialPosts);
 
-  const [completedCount, setCompletedCount] = useState(23);
+  const [completedCount, setCompletedCount] = useState(todayStatsData.postedCount);
   const [removingId, setRemovingId] = useState<number | null>(null);
   const [postingId, setPostingId] = useState<number | null>(null);
 
-  const userProfile = {
-    name: "박시연",
-    handle: "@crypto_siyeon",
-    followers: "18.2K",
-    avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=siyeon2025"
-  };
-
-  const topCoins = [
-    { name: "AI16Z", rank: 1, posts: 287, revenue: "$4,850", trend: "+34%", trendUp: true },
-    { name: "ELIZA", rank: 2, posts: 245, revenue: "$3,920", trend: "+28%", trendUp: true },
-    { name: "VIRTUAL", rank: 3, posts: 198, revenue: "$2,640", trend: "+19%", trendUp: true },
-    { name: "PRIME", rank: 4, posts: 156, revenue: "$1,890", trend: "+12%", trendUp: true },
-    { name: "RNDR", rank: 5, posts: 132, revenue: "$1,520", trend: "-5%", trendUp: false },
-  ];
-
-  const newPostTemplates = [
-    {
-      content: "NVIDIA H200 벤치마크 떴다\n\nH100 대비 성능 2배 상승 ㄷㄷ\n전력 효율도 미쳤음\n\nAI 훈련 시간 반으로 줄어듬\n\n#NVIDIA #H200 #AI",
-      image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800&q=80",
-      coin: "RNDR",
-      earnings: "$16.40",
-      engagement: 87,
-    },
-    {
-      content: "Apple Vision Pro 2 루머 정리\n\n- 30% 더 가벼움\n- 배터리 2배\n- 가격 $2999로 인하\n\n2026년 출시 예정 👀\n\n#VisionPro #Apple #AR",
-      image: "https://images.unsplash.com/photo-1617802690992-15d93263d3a9?w=800&q=80",
-      coin: "VIRTUAL",
-      earnings: "$13.90",
-      engagement: 83,
-    },
-    {
-      content: "메타 Ray-Ban 2세대 공개\n\n이제 영상통화까지 됨 😱\n줌 미팅을 안경으로...\n\n미래가 진짜 왔다\n\n#Meta #RayBan #SmartGlasses",
-      image: "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=800&q=80",
-      coin: "AI16Z",
-      earnings: "$19.20",
-      engagement: 90,
-    }
-  ];
+  const userProfile = demoUser;
 
   const todayStats = {
     scheduled: scheduledPosts.length,
     posted: completedCount,
-    totalRevenue: "$287.40",
-    avgEngagement: 87
+    totalRevenue: todayStatsData.totalRevenue,
+    avgEngagement: todayStatsData.avgEngagement,
   };
 
   // Auto-add new posts when automation is active
@@ -117,8 +42,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost }: HomeProps) {
     const interval = setInterval(() => {
       const randomTemplate = newPostTemplates[Math.floor(Math.random() * newPostTemplates.length)];
       const newId = Date.now();
-      const times = ["오후 6:00", "오후 6:30", "오후 7:00", "오후 7:30", "오후 8:00"];
-      const randomTime = times[Math.floor(Math.random() * times.length)];
+      const randomTime = autoPostTimes[Math.floor(Math.random() * autoPostTimes.length)];
 
       const newPost = {
         id: newId,
@@ -126,7 +50,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost }: HomeProps) {
         scheduledTime: randomTime,
         status: "scheduled",
         eta: `${Math.floor(Math.random() * 40) + 10}분 후`,
-        date: "2025.10.17"
+        date: formatDotDate(DEMO_NOW),
       };
 
       setScheduledPosts(prev => [...prev, newPost]);
@@ -207,7 +131,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost }: HomeProps) {
           <div className="flex items-center gap-2">
             <div className={`w-2 h-2 rounded-full transition-all ${isAutomationActive ? 'status-active' : 'status-paused'}`}></div>
             <span className="ios-subhead text-[#6B7280]">
-              {isAutomationActive ? '자동 포스팅 활성화 · 2025.10.17' : '일시 정지됨'}
+              {isAutomationActive ? `자동 포스팅 활성화 · ${formatDotDate(DEMO_NOW)}` : '일시 정지됨'}
             </span>
           </div>
         </div>
@@ -217,7 +141,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost }: HomeProps) {
           <div className="ios-card">
             <div className="px-4 py-3.5 border-b border-[#E5E7EB]">
               <p className="ios-headline text-[#111827]">오늘 요약</p>
-              <p className="ios-caption-1 text-[#8E8E93] mt-0.5">2025년 10월 17일 목요일</p>
+              <p className="ios-caption-1 text-[#8E8E93] mt-0.5">{formatLongDate(DEMO_NOW)}</p>
             </div>
             <div className="grid grid-cols-2 divide-x divide-[#E5E7EB]">
               <div className="p-4">
@@ -238,6 +162,57 @@ export function Home({ onNavigate, onApprove, onOpenEditPost }: HomeProps) {
                 <p className="ios-caption-1 text-[#6B7280] mb-1">평균 인게이지먼트</p>
                 <p className="ios-body text-[#007AFF]" style={{ fontWeight: 600 }}>{todayStats.avgEngagement}%</p>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Weekly Revenue Chart */}
+        <div className="px-5 pb-4">
+          <div className="ios-card p-4">
+            <div className="flex items-center justify-between mb-1">
+              <p className="ios-headline text-[#111827]">주간 수익 추이</p>
+              <span className="ios-caption-1 text-[#34C759]" style={{ fontWeight: 600 }}>+18.2%</span>
+            </div>
+            <p className="ios-caption-1 text-[#8E8E93] mb-3">최근 7일 · 야핑 보상 ($)</p>
+            <div className="h-[150px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={revenueSeries} margin={{ top: 6, right: 6, left: 6, bottom: 0 }}>
+                  <defs>
+                    <linearGradient id="revFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#007AFF" stopOpacity={0.28} />
+                      <stop offset="100%" stopColor="#007AFF" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis
+                    dataKey="day"
+                    tickLine={false}
+                    axisLine={false}
+                    tick={{ fontSize: 11, fill: "#8E8E93" }}
+                    dy={4}
+                  />
+                  <Tooltip
+                    cursor={{ stroke: "#007AFF", strokeWidth: 1, strokeDasharray: "3 3" }}
+                    contentStyle={{
+                      borderRadius: 12,
+                      border: "none",
+                      boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+                      fontSize: 12,
+                      padding: "8px 12px",
+                    }}
+                    labelStyle={{ color: "#8E8E93", fontSize: 11, marginBottom: 2 }}
+                    formatter={(value: any) => [`$${value}`, "수익"]}
+                  />
+                  <Area
+                    type="monotone"
+                    dataKey="revenue"
+                    stroke="#007AFF"
+                    strokeWidth={2.5}
+                    fill="url(#revFill)"
+                    dot={false}
+                    activeDot={{ r: 4, fill: "#007AFF" }}
+                  />
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
           </div>
         </div>

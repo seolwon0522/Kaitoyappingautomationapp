@@ -1,5 +1,7 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import { automationRules, systemMetrics } from "../data";
+import { DEMO_NOW, formatMonthLabel } from "../utils/date";
 
 interface SchedulerProps {
   onNavigate: (screen: string) => void;
@@ -7,15 +9,7 @@ interface SchedulerProps {
 }
 
 export function Scheduler({ onNavigate, onOpenNewSchedule }: SchedulerProps) {
-  const [rules, setRules] = useState([
-    { id: 1, title: "실시간 X 트렌드", time: "24시간 활성", active: true, posts: 42, lastTrigger: "3분 전" },
-    { id: 2, title: "AI/크립토 트렌드 모니터링", time: "24시간 활성", active: true, posts: 34, lastTrigger: "8분 전" },
-    { id: 3, title: "테크 기업 발표 추적", time: "이벤트 발생시", active: true, posts: 18, lastTrigger: "1시간 전" },
-    { id: 4, title: "K-POP 신곡/컴백 알림", time: "자동 감지", active: true, posts: 12, lastTrigger: "3시간 전" },
-    { id: 5, title: "e스포츠 경기 결과", time: "경기 종료 후", active: true, posts: 9, lastTrigger: "5시간 전" },
-    { id: 6, title: "아침 시장 브리핑", time: "매일 08:30", active: false, posts: 0, lastTrigger: "-" },
-    { id: 7, title: "저녁 일일 요약", time: "매일 19:00", active: false, posts: 0, lastTrigger: "-" },
-  ]);
+  const [rules, setRules] = useState(automationRules);
 
   const activeRules = rules.filter(r => r.active).length;
   const totalPosts = rules.reduce((sum, r) => sum + r.posts, 0);
@@ -40,7 +34,7 @@ export function Scheduler({ onNavigate, onOpenNewSchedule }: SchedulerProps) {
           <div className="ios-card">
             <div className="px-4 py-3.5 border-b border-[#E5E7EB]">
               <p className="ios-headline text-[#111827]">자동화 현황</p>
-              <p className="ios-caption-1 text-[#8E8E93] mt-0.5">2025년 10월 17일 기준</p>
+              <p className="ios-caption-1 text-[#8E8E93] mt-0.5">{formatMonthLabel(DEMO_NOW)}</p>
             </div>
             <div className="grid grid-cols-3 divide-x divide-[#E5E7EB]">
               <div className="p-4 text-center">
@@ -52,7 +46,7 @@ export function Scheduler({ onNavigate, onOpenNewSchedule }: SchedulerProps) {
                 <p className="ios-caption-1 text-[#8E8E93]">이번 주</p>
               </div>
               <div className="p-4 text-center">
-                <p className="ios-title-2 text-[#34C759] mb-1" style={{ fontWeight: 600 }}>97%</p>
+                <p className="ios-title-2 text-[#34C759] mb-1" style={{ fontWeight: 600 }}>{systemMetrics.automationSuccess}%</p>
                 <p className="ios-caption-1 text-[#8E8E93]">성공률</p>
               </div>
             </div>

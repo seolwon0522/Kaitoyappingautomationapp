@@ -202,3 +202,42 @@
 .status-completed {
   background: #007AFF;
 }
+
+/* ===== Dark Mode ===== */
+.dark body {
+  background: #000000;
+  color: #F2F2F7;
+}
+
+.dark .ios-card {
+  background: #1C1C1E;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.dark .bg-white { background-color: #1C1C1E !important; }
+.dark .bg-\[\#F9FAFB\] { background-color: #000000 !important; }
+.dark .bg-\[\#F2F3F5\] { background-color: #2C2C2E !important; }
+.dark .bg-\[\#F2F2F7\] { background-color: #2C2C2E !important; }
+
+.dark .text-\[\#111827\] { color: #F2F2F7 !important; }
+.dark .text-\[\#1C1C1E\] { color: #F2F2F7 !important; }
+.dark .text-\[\#6B7280\] { color: #98989F !important; }
+
+.dark .border-\[\#E5E7EB\] { border-color: rgba(255, 255, 255, 0.10) !important; }
+.dark .border-\[\#C6C6C8\] { border-color: rgba(255, 255, 255, 0.12) !important; }
+
+.dark .divide-\[\#E5E7EB\] > :not([hidden]) ~ :not([hidden]) { border-color: rgba(255, 255, 255, 0.10) !important; }
+.dark .divide-\[\#C6C6C8\] > :not([hidden]) ~ :not([hidden]) { border-color: rgba(255, 255, 255, 0.10) !important; }
+
+.dark .ios-separator { background: rgba(255, 255, 255, 0.10); }
+
+.dark .ios-tab-bar {
+  background: rgba(28, 28, 30, 0.92);
+  border-top: 0.5px solid rgba(255, 255, 255, 0.10);
+}
+
+.dark .coin-badge-4,
+.dark .coin-badge-5 {
+  background: #2C2C2E;
+  color: #98989F;
+}

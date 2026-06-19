@@ -1,3 +1,5 @@
+import { appMeta } from "../data";
+
 interface OnboardingProps {
   onComplete: () => void;
   onConnect: () => void;
@@ -15,26 +17,27 @@ export function Onboarding({ onComplete, onConnect }: OnboardingProps) {
           </svg>
         </div>
         
-        <h1 className="ios-title-1 text-center mb-3 text-[#111827]">
-          야핑 자동화
+        <h1 className="ios-title-1 text-center mb-2 text-[#111827]">
+          AI 기반 야핑 자동화
         </h1>
-        
+        <p className="ios-caption-1 text-center text-[#8E8E93] mb-4">by 야핑팀</p>
+
         <p className="ios-body text-center text-[#6B7280] mb-2 max-w-sm">
-          실시간 트렌드 분석부터
+          트렌드 수집부터 AI 트윗 생성,
         </p>
         <p className="ios-body text-center text-[#6B7280] mb-10 max-w-sm">
-          스케줄 포스팅까지 자동으로
+          자동 게시·성과 분석까지 한 번에
         </p>
 
         <div className="flex gap-2 flex-wrap justify-center mb-2">
           <div className="px-3 py-2 bg-[#F9FAFB] rounded-full border border-[#E5E7EB]">
-            <span className="ios-caption-1 text-[#6B7280]">실시간 분석</span>
+            <span className="ios-caption-1 text-[#6B7280]">트렌드 수집</span>
           </div>
           <div className="px-3 py-2 bg-[#F9FAFB] rounded-full border border-[#E5E7EB]">
-            <span className="ios-caption-1 text-[#6B7280]">자동 포스팅</span>
+            <span className="ios-caption-1 text-[#6B7280]">AI 트윗 생성</span>
           </div>
           <div className="px-3 py-2 bg-[#F9FAFB] rounded-full border border-[#E5E7EB]">
-            <span className="ios-caption-1 text-[#6B7280]">수익 트래킹</span>
+            <span className="ios-caption-1 text-[#6B7280]">성과 분석</span>
           </div>
         </div>
       </div>
@@ -55,7 +58,7 @@ export function Onboarding({ onComplete, onConnect }: OnboardingProps) {
         </button>
 
         <p className="ios-caption-2 text-[#C7C7CC] text-center pt-2">
-          Version 1.2.0
+          Version {appMeta.version}
         </p>
       </div>
     </div>

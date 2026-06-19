@@ -1,5 +1,7 @@
 import { CheckCircle, XCircle, Clock } from "lucide-react";
 import { useState } from "react";
+import { postingLogs } from "../data";
+import { DEMO_NOW, formatLongDate } from "../utils/date";
 
 interface LogsProps {
   onOpenDetail: (log: any) => void;
@@ -8,92 +10,7 @@ interface LogsProps {
 export function Logs({ onOpenDetail }: LogsProps) {
   const [selectedTab, setSelectedTab] = useState<"today" | "week" | "all">("today");
 
-  const logs = [
-    {
-      id: 1,
-      time: "오후 1:24",
-      date: "2025.10.17",
-      status: "success",
-      content: "OpenAI DevDay 2025 요약\n\nGPT-5 공개 안했지만\nVoice Engine 개선 + API 가격 50% 인하\n\n개발자들 환호 중 🎉",
-      coin: "AI16Z",
-      earnings: "$22.80",
-      engagement: 94,
-      likes: 342,
-      retweets: 128
-    },
-    {
-      id: 2,
-      time: "오전 11:15",
-      date: "2025.10.17",
-      status: "success",
-      content: "메타 Ray-Ban 스마트글래스 2세대\n\n이제 영상통화까지 됨 😱\n줌 미팅을 안경으로...\n\n미래가 왔다",
-      coin: "VIRTUAL",
-      earnings: "$19.50",
-      engagement: 89,
-      likes: 298,
-      retweets: 94
-    },
-    {
-      id: 3,
-      time: "오전 9:42",
-      date: "2025.10.17",
-      status: "success",
-      content: "T1 vs JDG 준결승\n\nZeus 솔킬 3개 ㄷㄷㄷ\n이번 Worlds 우승 각 보인다\n\n#T1WIN #Worlds2025",
-      coin: "ELIZA",
-      earnings: "$17.30",
-      engagement: 86,
-      likes: 267,
-      retweets: 81
-    },
-    {
-      id: 4,
-      time: "오전 8:05",
-      date: "2025.10.17",
-      status: "success",
-      content: "테슬라 Cybertruck 한국 출시 확정\n\n2026년 1월 예약 시작\n가격은... 아직 미정 💰\n\n벌써부터 화제",
-      coin: "PRIME",
-      earnings: "$15.90",
-      engagement: 83,
-      likes: 245,
-      retweets: 76
-    },
-    {
-      id: 5,
-      time: "오후 11:28",
-      date: "2025.10.16",
-      status: "success",
-      content: "NVIDIA H200 벤치마크 나왔는데\n\nH100 대비 성능 2배 ㄷㄷ\n전력 효율도 미쳤음\n\n주가 또 오르겠네",
-      coin: "RNDR",
-      earnings: "$14.20",
-      engagement: 80,
-      likes: 223,
-      retweets: 68
-    },
-    {
-      id: 6,
-      time: "오후 8:45",
-      date: "2025.10.16",
-      status: "failed",
-      content: "비트코인 10만불 돌파 임박?\n\n월가 분석가들 전망 엇갈려\n누가 맞을지 두고보자",
-      coin: "AI16Z",
-      earnings: "$0.00",
-      engagement: 0,
-      likes: 0,
-      retweets: 0
-    },
-    {
-      id: 7,
-      time: "오후 6:18",
-      date: "2025.10.16",
-      status: "success",
-      content: "Apple Vision Pro 2 루머 정리\n\n- 30% 더 가벼움\n- 배터리 시간 2배\n- 가격은 $2999로 인하\n\n2026년 출시 예정",
-      coin: "VIRTUAL",
-      earnings: "$13.60",
-      engagement: 77,
-      likes: 198,
-      retweets: 61
-    },
-  ];
+  const logs = postingLogs;
 
   const stats = {
     success: logs.filter(l => l.status === 'success').length,
@@ -142,7 +59,7 @@ export function Logs({ onOpenDetail }: LogsProps) {
         <div className="px-5 pb-4">
           <div className="ios-card">
             <div className="px-4 py-3 border-b border-[#E5E7EB]">
-              <p className="ios-caption-1 text-[#8E8E93]">2025년 10월 17일 목요일</p>
+              <p className="ios-caption-1 text-[#8E8E93]">{formatLongDate(DEMO_NOW)}</p>
             </div>
             <div className="grid grid-cols-4 divide-x divide-[#E5E7EB]">
               <div className="p-3.5 text-center min-w-0">

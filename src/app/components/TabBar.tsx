@@ -1,6 +1,8 @@
+type TabId = "home" | "scheduler" | "logs" | "monitor" | "pipeline" | "settings";
+
 interface TabBarProps {
-  activeTab: "home" | "scheduler" | "logs" | "monitor" | "settings";
-  onTabChange: (tab: "home" | "scheduler" | "logs" | "monitor" | "settings") => void;
+  activeTab: TabId;
+  onTabChange: (tab: TabId) => void;
 }
 
 export function TabBar({ activeTab, onTabChange }: TabBarProps) {
@@ -61,8 +63,22 @@ export function TabBar({ activeTab, onTabChange }: TabBarProps) {
         </svg>
       )
     },
-    { 
-      id: "settings" as const, 
+    {
+      id: "pipeline" as const,
+      label: "시스템",
+      iconActive: (
+        <svg width="25" height="25" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#007AFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      ),
+      iconInactive: (
+        <svg width="25" height="25" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#8E8E93" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      )
+    },
+    {
+      id: "settings" as const,
       label: "설정",
       iconActive: (
         <svg width="25" height="25" viewBox="0 0 25 25" fill="none">
