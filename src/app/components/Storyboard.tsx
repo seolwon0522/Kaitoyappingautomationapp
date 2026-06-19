@@ -908,7 +908,7 @@ export function Storyboard({ onStartFlow, initialView }: StoryboardProps) {
       <div className="bg-white border-t border-gray-200 py-6 mt-12">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <p className="text-sm text-gray-500">
-            Kaito 야핑 자동화 시스템 UX Storyboard · © 2025 Kaito Labs · v1.2.0
+            Kaito 야핑 자동화 시스템 UX Storyboard · © {new Date().getFullYear()} Kaito Labs · v1.2.0
           </p>
         </div>
       </div>

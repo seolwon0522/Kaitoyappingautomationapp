@@ -1,6 +1,7 @@
 import { ChevronRight, User, Key, Bell, Info, DollarSign } from "lucide-react";
 import { useState, useEffect } from "react";
 import { ApiKeySheet } from "./ApiKeySheet";
+import { formatKoreanMonth } from "../utils/date";
 
 interface SettingsProps {
   onTestConnection: () => void;
@@ -149,7 +150,7 @@ export function Settings({ onTestConnection, onLogout, apiKeySheetOpen = false, 
         {/* Supported Coins */}
         <div className="px-5 pb-4">
           <div className="bg-[#F2F3F5] rounded-xl p-4">
-            <p className="ios-caption-1 text-[#8E8E93] mb-2">지원 코인 · 2025년 11월 기준</p>
+            <p className="ios-caption-1 text-[#8E8E93] mb-2">지원 코인 · {formatKoreanMonth()} 기준</p>
             <div className="flex flex-wrap gap-2">
               {['AI16Z', 'ELIZA', 'VIRTUAL', 'PRIME', 'RNDR', 'FET', 'AGIX', 'OCEAN'].map((coin) => (
                 <span key={coin} className="px-2.5 py-1.5 bg-white rounded-full border border-[#E5E7EB]">
@@ -173,7 +174,7 @@ export function Settings({ onTestConnection, onLogout, apiKeySheetOpen = false, 
         {/* Footer */}
         <div className="px-5 pt-2 pb-4 text-center">
           <p className="ios-caption-2 text-[#8E8E93]">야핑 자동화 시스템</p>
-          <p className="ios-caption-2 text-[#C7C7CC] mt-1">© 2025 Kaito Labs · v1.2.0</p>
+          <p className="ios-caption-2 text-[#C7C7CC] mt-1">© {new Date().getFullYear()} Kaito Labs · v1.2.0</p>
         </div>
       </div>
 

@@ -1,4 +1,5 @@
 import { Activity, TrendingUp, BarChart3 } from "lucide-react";
+import { formatDateTimeKorean } from "../utils/date";
 
 interface MonitorProps {
   onReconnect: () => void;
@@ -47,7 +48,7 @@ export function Monitor({ onReconnect, highlightElement }: MonitorProps) {
                   </div>
                   <div>
                     <p className="ios-body text-[#111827]" style={{ fontWeight: 600 }}>시스템 정상</p>
-                    <p className="ios-caption-1 text-[#34C759]">2025.11.27 오후 2:45</p>
+                    <p className="ios-caption-1 text-[#34C759]">{formatDateTimeKorean()}</p>
                   </div>
                 </div>
                 <div className="w-2.5 h-2.5 bg-[#34C759] rounded-full"></div>

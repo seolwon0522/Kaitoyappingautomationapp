@@ -1,5 +1,6 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import { formatKoreanDate } from "../utils/date";
 
 interface SchedulerProps {
   onNavigate: (screen: string) => void;
@@ -48,7 +49,7 @@ export function Scheduler({ onNavigate, onOpenNewSchedule, highlightElement }: S
           <div className="ios-card">
             <div className="px-4 py-3.5 border-b border-[#E5E7EB]">
               <p className="ios-headline text-[#111827]">자동화 현황</p>
-              <p className="ios-caption-1 text-[#8E8E93] mt-0.5">2025년 11월 27일 기준</p>
+              <p className="ios-caption-1 text-[#8E8E93] mt-0.5">{formatKoreanDate()} 기준</p>
             </div>
             <div className="grid grid-cols-3 divide-x divide-[#E5E7EB]">
               <div className="p-4 text-center">

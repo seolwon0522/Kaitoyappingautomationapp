@@ -1,5 +1,6 @@
 import { ChevronRight, Play, Pause, CheckCircle } from "lucide-react";
 import { useState, useEffect } from "react";
+import { formatDateDot, formatKoreanDateWithWeekday } from "../utils/date";
 
 interface HomeProps {
   onNavigate: (screen: string) => void;
@@ -11,6 +12,8 @@ interface HomeProps {
 }
 
 export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled, onToggleAutomation, highlightElement }: HomeProps) {
+  const todayDateStr = formatDateDot();
+
   // Use prop if provided, otherwise use local state
   const [isAutomationActive, setIsAutomationActive] = useState(automationEnabled !== undefined ? automationEnabled : true);
   const [scheduledPosts, setScheduledPosts] = useState([
@@ -24,7 +27,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
       scheduledTime: "오후 2:30",
       status: "scheduled",
       eta: "5분 후",
-      date: "2025.11.27"
+      date: todayDateStr
     },
     {
       id: 2,
@@ -36,7 +39,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
       scheduledTime: "오후 3:15",
       status: "scheduled",
       eta: "20분 후",
-      date: "2025.11.27"
+      date: todayDateStr
     },
     {
       id: 3,
@@ -48,7 +51,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
       scheduledTime: "오후 4:00",
       status: "ready",
       eta: "준비완료",
-      date: "2025.11.27"
+      date: todayDateStr
     },
     {
       id: 4,
@@ -60,7 +63,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
       scheduledTime: "오후 5:30",
       status: "scheduled",
       eta: "1시간 후",
-      date: "2025.11.27"
+      date: todayDateStr
     }
   ]);
 
@@ -130,7 +133,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
         scheduledTime: randomTime,
         status: "scheduled",
         eta: `${Math.floor(Math.random() * 40) + 10}분 후`,
-        date: "2025.11.27"
+        date: todayDateStr
       };
 
       setScheduledPosts(prev => [...prev, newPost]);
@@ -230,7 +233,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
           <div className="flex items-center gap-2">
             <div className={`w-2 h-2 rounded-full transition-all ${isAutomationActive ? 'status-active' : 'status-paused'}`}></div>
             <span className="ios-subhead text-[#6B7280]">
-              {isAutomationActive ? '자동 포스팅 활성화 · 2025.11.27' : '일시 정지됨'}
+              {isAutomationActive ? `자동 포스팅 활성화 · ${todayDateStr}` : '일시 정지됨'}
             </span>
           </div>
         </div>
@@ -240,7 +243,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
           <div className={`ios-card transition-all duration-300 ${getHighlightStyle("revenue-card")}`} id="revenue-card">
             <div className="px-4 py-3.5 border-b border-[#E5E7EB]">
               <p className="ios-headline text-[#111827]">오늘 요약</p>
-              <p className="ios-caption-1 text-[#8E8E93] mt-0.5">2025년 11월 27일 목요일</p>
+              <p className="ios-caption-1 text-[#8E8E93] mt-0.5">{formatKoreanDateWithWeekday()}</p>
             </div>
             <div className="grid grid-cols-2 divide-x divide-[#E5E7EB]">
               <div className="p-4">

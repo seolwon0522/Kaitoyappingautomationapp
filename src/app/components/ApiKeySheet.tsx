@@ -2,6 +2,8 @@ import { X, Eye, EyeOff, Copy, Check } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { toast } from "sonner@2.0.3";
+import { subDays } from "date-fns";
+import { formatDateDot, formatDateTime24 } from "../utils/date";
 
 interface ApiKeySheetProps {
   isOpen: boolean;
@@ -207,13 +209,13 @@ export function ApiKeySheet({ isOpen, onClose, onSave, currentApiKey = "", highl
                     <div className="px-4 py-3 flex items-center justify-between">
                       <span className="ios-body text-[#6B7280]">등록일</span>
                       <span className="ios-body text-[#111827]" style={{ fontWeight: 600 }}>
-                        2025.11.15
+                        {formatDateDot(subDays(new Date(), 12))}
                       </span>
                     </div>
                     <div className="px-4 py-3 flex items-center justify-between">
                       <span className="ios-body text-[#6B7280]">마지막 사용</span>
                       <span className="ios-body text-[#111827]" style={{ fontWeight: 600 }}>
-                        2025.11.27 13:24
+                        {formatDateTime24()}
                       </span>
                     </div>
                     <div className="px-4 py-3 flex items-center justify-between">

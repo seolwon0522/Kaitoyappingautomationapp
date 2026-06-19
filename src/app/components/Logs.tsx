@@ -1,5 +1,6 @@
 import { CheckCircle, XCircle, Clock } from "lucide-react";
 import { useState } from "react";
+import { formatDateDot, formatKoreanDate, formatYesterdayDot } from "../utils/date";
 
 interface LogsProps {
   onOpenDetail: (log: any) => void;
@@ -8,6 +9,8 @@ interface LogsProps {
 
 export function Logs({ onOpenDetail, highlightElement }: LogsProps) {
   const [selectedTab, setSelectedTab] = useState<"today" | "week" | "all">("today");
+  const todayStr = formatDateDot();
+  const yesterdayStr = formatYesterdayDot();
 
   const getHighlightStyle = (elementId: string) => {
     if (highlightElement === elementId) {
@@ -20,7 +23,7 @@ export function Logs({ onOpenDetail, highlightElement }: LogsProps) {
     {
       id: 1,
       time: "오후 1:24",
-      timestamp: "2025.11.27",
+      timestamp: todayStr,
       status: "success",
       content: "OpenAI DevDay 2025 요약\n\nGPT-5 공개 안했지만\nVoice Engine 개선 + API 가격 50% 인하\n\n개발자들 환호 중 🎉",
       coin: "AI16Z",
@@ -33,7 +36,7 @@ export function Logs({ onOpenDetail, highlightElement }: LogsProps) {
     {
       id: 2,
       time: "오전 11:15",
-      timestamp: "2025.11.27",
+      timestamp: todayStr,
       status: "success",
       content: "메타 Ray-Ban 스마트글래스 2세대\n\n이제 영상통화까지 됨 😱\n줌 미팅을 안경으로...\n\n미래가 왔다",
       coin: "VIRTUAL",
@@ -46,7 +49,7 @@ export function Logs({ onOpenDetail, highlightElement }: LogsProps) {
     {
       id: 3,
       time: "오전 9:42",
-      timestamp: "2025.11.27",
+      timestamp: todayStr,
       status: "success",
       content: "T1 vs JDG 준결승\n\nZeus 솔킬 3개 ㄷㄷㄷ\n이번 Worlds 우승 각 보인다\n\n#T1WIN #Worlds2025",
       coin: "ELIZA",
@@ -59,7 +62,7 @@ export function Logs({ onOpenDetail, highlightElement }: LogsProps) {
     {
       id: 4,
       time: "오전 8:05",
-      timestamp: "2025.11.27",
+      timestamp: todayStr,
       status: "success",
       content: "테슬라 Cybertruck 한국 출시 확정\n\n2026년 1월 예약 시작\n가격은... 아직 미정 💰\n\n벌써부터 화제",
       coin: "PRIME",
@@ -72,7 +75,7 @@ export function Logs({ onOpenDetail, highlightElement }: LogsProps) {
     {
       id: 5,
       time: "오후 11:28",
-      timestamp: "2025.11.26",
+      timestamp: yesterdayStr,
       status: "success",
       content: "NVIDIA H200 벤치마크 나왔는데\n\nH100 대비 성능 2배 ㄷㄷ\n전력 효율도 미쳤음\n\n주가 또 오르겠네",
       coin: "RNDR",
@@ -85,7 +88,7 @@ export function Logs({ onOpenDetail, highlightElement }: LogsProps) {
     {
       id: 6,
       time: "오후 8:45",
-      timestamp: "2025.11.26",
+      timestamp: yesterdayStr,
       status: "failed",
       content: "비트코인 10만불 돌파 임박?\n\n월가 분석가들 전망 엇갈려\n누가 맞을지 두고보자",
       coin: "AI16Z",
@@ -97,9 +100,9 @@ export function Logs({ onOpenDetail, highlightElement }: LogsProps) {
   ];
 
   const todayStats = {
-    total: logs.filter(l => l.timestamp === "2025.11.27").length,
-    success: logs.filter(l => l.timestamp === "2025.11.27" && l.status === "success").length,
-    failed: logs.filter(l => l.timestamp === "2025.11.27" && l.status === "failed").length,
+    total: logs.filter(l => l.timestamp === todayStr).length,
+    success: logs.filter(l => l.timestamp === todayStr && l.status === "success").length,
+    failed: logs.filter(l => l.timestamp === todayStr && l.status === "failed").length,
     revenue: "$75.50"
   };
 
@@ -132,7 +135,7 @@ export function Logs({ onOpenDetail, highlightElement }: LogsProps) {
   const filteredLogs = () => {
     switch (selectedTab) {
       case "today":
-        return logs.filter(l => l.timestamp === "2025.11.27");
+        return logs.filter(l => l.timestamp === todayStr);
       case "week":
         return logs;
       case "all":
@@ -154,7 +157,7 @@ export function Logs({ onOpenDetail, highlightElement }: LogsProps) {
           <div className="ios-card">
             <div className="px-4 py-3.5 border-b border-[#E5E7EB]">
               <p className="ios-headline text-[#111827]">오늘 활동</p>
-              <p className="ios-caption-1 text-[#8E8E93] mt-0.5">2025년 11월 27일</p>
+              <p className="ios-caption-1 text-[#8E8E93] mt-0.5">{formatKoreanDate()}</p>
             </div>
             <div className="grid grid-cols-2 divide-x divide-[#E5E7EB]">
               <div className="p-4">
