@@ -1,40 +1,13 @@
 import { ChevronRight, User, Key, Bell, Info, DollarSign } from "lucide-react";
-import { useState, useEffect } from "react";
-import { ApiKeySheet } from "./ApiKeySheet";
-import { formatKoreanMonth } from "../utils/date";
+import { useState } from "react";
 
 interface SettingsProps {
   onTestConnection: () => void;
   onLogout: () => void;
-  apiKeySheetOpen?: boolean;
-  onApiKeySheetChange?: (open: boolean) => void;
-  highlightElement?: string | null;
 }
 
-export function Settings({ onTestConnection, onLogout, apiKeySheetOpen = false, onApiKeySheetChange, highlightElement }: SettingsProps) {
+export function Settings({ onTestConnection, onLogout }: SettingsProps) {
   const [notifications, setNotifications] = useState(true);
-  const [isApiKeySheetOpen, setIsApiKeySheetOpen] = useState(false);
-
-  // Sync with external prop if provided
-  useEffect(() => {
-    if (apiKeySheetOpen !== undefined) {
-      setIsApiKeySheetOpen(apiKeySheetOpen);
-    }
-  }, [apiKeySheetOpen]);
-
-  const handleApiKeySheetToggle = (open: boolean) => {
-    setIsApiKeySheetOpen(open);
-    if (onApiKeySheetChange) {
-      onApiKeySheetChange(open);
-    }
-  };
-
-  const getHighlightStyle = (elementId: string) => {
-    if (highlightElement === elementId) {
-      return "outline outline-4 outline-red-500 outline-offset-4 shadow-[0_0_20px_rgba(239,68,68,0.5)] relative z-10";
-    }
-    return "";
-  };
 
   return (
     <div className="flex flex-col h-screen bg-[#F9FAFB]">
@@ -44,7 +17,7 @@ export function Settings({ onTestConnection, onLogout, apiKeySheetOpen = false, 
 
       <div className="flex-1 overflow-y-auto pb-24">
         {/* Account */}
-        <div className={`px-5 pt-5 pb-4 transition-all duration-300 ${getHighlightStyle("api-section")}`} id="api-section">
+        <div className="px-5 pt-5 pb-4">
           <div className="ios-card overflow-hidden">
             <div className="px-4 py-3.5 flex items-center gap-3 border-b border-[#E5E7EB]">
               <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#007AFF] to-[#5856D6] flex items-center justify-center overflow-hidden">
@@ -59,11 +32,7 @@ export function Settings({ onTestConnection, onLogout, apiKeySheetOpen = false, 
                 <p className="ios-caption-1 text-[#8E8E93]">@crypto_siyeon · 18.2K</p>
               </div>
             </div>
-            <button 
-              className={`w-full px-4 py-3.5 flex items-center justify-between ios-touchable transition-all duration-300 ${getHighlightStyle("api-key-button")}`}
-              onClick={() => handleApiKeySheetToggle(true)}
-              id="api-key-button"
-            >
+            <button className="w-full px-4 py-3.5 flex items-center justify-between ios-touchable">
               <div className="flex items-center gap-3">
                 <Key className="w-5 h-5 text-[#8E8E93]" />
                 <div>
@@ -150,7 +119,7 @@ export function Settings({ onTestConnection, onLogout, apiKeySheetOpen = false, 
         {/* Supported Coins */}
         <div className="px-5 pb-4">
           <div className="bg-[#F2F3F5] rounded-xl p-4">
-            <p className="ios-caption-1 text-[#8E8E93] mb-2">지원 코인 · {formatKoreanMonth()} 기준</p>
+            <p className="ios-caption-1 text-[#8E8E93] mb-2">지원 코인 · 2025년 10월 기준</p>
             <div className="flex flex-wrap gap-2">
               {['AI16Z', 'ELIZA', 'VIRTUAL', 'PRIME', 'RNDR', 'FET', 'AGIX', 'OCEAN'].map((coin) => (
                 <span key={coin} className="px-2.5 py-1.5 bg-white rounded-full border border-[#E5E7EB]">
@@ -174,20 +143,9 @@ export function Settings({ onTestConnection, onLogout, apiKeySheetOpen = false, 
         {/* Footer */}
         <div className="px-5 pt-2 pb-4 text-center">
           <p className="ios-caption-2 text-[#8E8E93]">야핑 자동화 시스템</p>
-          <p className="ios-caption-2 text-[#C7C7CC] mt-1">© {new Date().getFullYear()} Kaito Labs · v1.2.0</p>
+          <p className="ios-caption-2 text-[#C7C7CC] mt-1">© 2025 Kaito Labs · v1.2.0</p>
         </div>
       </div>
-
-      {/* ApiKeySheet */}
-      <ApiKeySheet 
-        isOpen={isApiKeySheetOpen} 
-        onClose={() => handleApiKeySheetToggle(false)}
-        onSave={(apiKey) => {
-          // Handle API key save
-          handleApiKeySheetToggle(false);
-        }}
-        highlightElement={highlightElement}
-      />
     </div>
   );
 }

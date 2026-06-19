@@ -1,12 +1,10 @@
 import { Activity, TrendingUp, BarChart3 } from "lucide-react";
-import { formatDateTimeKorean } from "../utils/date";
 
 interface MonitorProps {
   onReconnect: () => void;
-  highlightElement?: string | null;
 }
 
-export function Monitor({ onReconnect, highlightElement }: MonitorProps) {
+export function Monitor({ onReconnect }: MonitorProps) {
   const trends = [
     { tag: "#AI16z", coin: "AI16Z", score: 96, change: "+34%", volume: "2.8M" },
     { tag: "#OpenAIDevDay", coin: "VIRTUAL", score: 91, change: "+28%", volume: "1.9M" },
@@ -23,15 +21,8 @@ export function Monitor({ onReconnect, highlightElement }: MonitorProps) {
     { time: "12분 전", action: "포스팅 완료", detail: "OpenAI DevDay 요약 게시" },
   ];
 
-  const getHighlightStyle = (elementId: string) => {
-    if (highlightElement === elementId) {
-      return "outline outline-4 outline-red-500 outline-offset-4 shadow-[0_0_20px_rgba(239,68,68,0.5)] relative z-10";
-    }
-    return "";
-  };
-
   return (
-    <div className="flex flex-col h-screen bg-[#F9FAFB] relative">
+    <div className="flex flex-col h-screen bg-[#F9FAFB]">
       <div className="bg-[#F9FAFB] px-5 pt-16 pb-3">
         <h1 className="ios-large-title text-[#111827]">실시간 모니터</h1>
       </div>
@@ -39,7 +30,7 @@ export function Monitor({ onReconnect, highlightElement }: MonitorProps) {
       <div className="flex-1 overflow-y-auto pb-24">
         {/* System Status */}
         <div className="px-5 pt-5 pb-4">
-          <div className={`ios-card overflow-hidden transition-all duration-300 ${getHighlightStyle("system-status")}`} id="system-status">
+          <div className="ios-card overflow-hidden">
             <div className="px-4 py-3.5 border-b border-[#E5E7EB]">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -48,7 +39,7 @@ export function Monitor({ onReconnect, highlightElement }: MonitorProps) {
                   </div>
                   <div>
                     <p className="ios-body text-[#111827]" style={{ fontWeight: 600 }}>시스템 정상</p>
-                    <p className="ios-caption-1 text-[#34C759]">{formatDateTimeKorean()}</p>
+                    <p className="ios-caption-1 text-[#34C759]">2025.10.17 오후 2:45</p>
                   </div>
                 </div>
                 <div className="w-2.5 h-2.5 bg-[#34C759] rounded-full"></div>
@@ -73,7 +64,7 @@ export function Monitor({ onReconnect, highlightElement }: MonitorProps) {
             <h2 className="ios-headline text-[#111827]">실시간 활동</h2>
             <span className="ios-caption-1 text-[#8E8E93]">자동 업데이트</span>
           </div>
-          <div className={`ios-card transition-all duration-300 ${getHighlightStyle("activity-section")}`} id="activity-section">
+          <div className="ios-card">
             {realtimeActivity.map((activity, idx) => (
               <div key={idx}>
                 {idx > 0 && <div className="ios-separator ios-separator-inset"></div>}
@@ -98,7 +89,7 @@ export function Monitor({ onReconnect, highlightElement }: MonitorProps) {
             <h2 className="ios-headline text-[#111827]">실시간 트렌드</h2>
             <span className="ios-caption-1 text-[#8E8E93]">{trends.length}건 분석중</span>
           </div>
-          <div className={`ios-card transition-all duration-300 ${getHighlightStyle("trends-section")}`} id="trends-section">
+          <div className="ios-card">
             {trends.map((trend, idx) => (
               <div key={trend.tag}>
                 {idx > 0 && <div className="ios-separator ios-separator-inset"></div>}
@@ -130,7 +121,7 @@ export function Monitor({ onReconnect, highlightElement }: MonitorProps) {
         {/* Performance Metrics */}
         <div className="px-5 pb-4">
           <h2 className="ios-headline text-[#111827] mb-3 px-0.5">성과 지표</h2>
-          <div className={`ios-card p-4 transition-all duration-300 ${getHighlightStyle("metrics-section")}`} id="metrics-section">
+          <div className="ios-card p-4">
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between mb-2">
@@ -167,8 +158,7 @@ export function Monitor({ onReconnect, highlightElement }: MonitorProps) {
         <div className="px-5 pb-5">
           <button
             onClick={onReconnect}
-            className={`w-full ios-card px-4 py-3.5 flex items-center justify-center gap-2 ios-button-primary border border-[#E5E7EB] transition-all duration-300 ${getHighlightStyle("test-button")}`}
-            id="test-button"
+            className="w-full ios-card px-4 py-3.5 flex items-center justify-center gap-2 ios-button-primary border border-[#E5E7EB]"
           >
             <BarChart3 className="w-5 h-5 text-[#007AFF]" strokeWidth={2.5} />
             <span className="ios-body text-[#007AFF]" style={{ fontWeight: 600 }}>연결 상태 테스트</span>

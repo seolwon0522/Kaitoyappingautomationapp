@@ -6,18 +6,11 @@ interface LogDetailSheetProps {
   isOpen: boolean;
   onClose: () => void;
   log: any;
-  highlightElement?: string | null;
+  onResend: () => void;
 }
 
-export function LogDetailSheet({ isOpen, onClose, log, highlightElement }: LogDetailSheetProps) {
+export function LogDetailSheet({ isOpen, onClose, log, onResend }: LogDetailSheetProps) {
   if (!isOpen || !log) return null;
-
-  const getHighlightStyle = (elementId: string) => {
-    if (highlightElement === elementId) {
-      return "outline outline-4 outline-red-500 outline-offset-4 shadow-[0_0_20px_rgba(239,68,68,0.5)] relative z-10";
-    }
-    return "";
-  };
 
   const getStatusIcon = () => {
     switch (log.status) {
@@ -72,8 +65,7 @@ export function LogDetailSheet({ isOpen, onClose, log, highlightElement }: LogDe
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 30, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
-        className={`w-full max-w-[393px] bg-white rounded-t-3xl shadow-2xl transition-all duration-300 ${getHighlightStyle("detail-sheet")}`}
-        id="detail-sheet"
+        className="w-full max-w-[393px] bg-white rounded-t-3xl shadow-2xl"
       >
         {/* Handle Bar */}
         <div className="flex justify-center pt-3 pb-2">

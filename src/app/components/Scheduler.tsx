@@ -1,14 +1,12 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { formatKoreanDate } from "../utils/date";
 
 interface SchedulerProps {
   onNavigate: (screen: string) => void;
   onOpenNewSchedule: () => void;
-  highlightElement?: string | null;
 }
 
-export function Scheduler({ onNavigate, onOpenNewSchedule, highlightElement }: SchedulerProps) {
+export function Scheduler({ onNavigate, onOpenNewSchedule }: SchedulerProps) {
   const [rules, setRules] = useState([
     { id: 1, title: "실시간 X 트렌드", time: "24시간 활성", active: true, posts: 42, lastTrigger: "3분 전" },
     { id: 2, title: "AI/크립토 트렌드 모니터링", time: "24시간 활성", active: true, posts: 34, lastTrigger: "8분 전" },
@@ -30,13 +28,6 @@ export function Scheduler({ onNavigate, onOpenNewSchedule, highlightElement }: S
     );
   };
 
-  const getHighlightStyle = (elementId: string) => {
-    if (highlightElement === elementId) {
-      return "outline outline-4 outline-red-500 outline-offset-4 shadow-[0_0_20px_rgba(239,68,68,0.5)] relative z-10";
-    }
-    return "";
-  };
-
   return (
     <div className="flex flex-col h-screen bg-[#F9FAFB]">
       <div className="bg-[#F9FAFB] px-5 pt-16 pb-3">
@@ -49,7 +40,7 @@ export function Scheduler({ onNavigate, onOpenNewSchedule, highlightElement }: S
           <div className="ios-card">
             <div className="px-4 py-3.5 border-b border-[#E5E7EB]">
               <p className="ios-headline text-[#111827]">자동화 현황</p>
-              <p className="ios-caption-1 text-[#8E8E93] mt-0.5">{formatKoreanDate()} 기준</p>
+              <p className="ios-caption-1 text-[#8E8E93] mt-0.5">2025년 10월 17일 기준</p>
             </div>
             <div className="grid grid-cols-3 divide-x divide-[#E5E7EB]">
               <div className="p-4 text-center">
@@ -69,7 +60,7 @@ export function Scheduler({ onNavigate, onOpenNewSchedule, highlightElement }: S
         </div>
 
         {/* Automation Rules */}
-        <div className={`px-5 pb-4 transition-all duration-300 ${getHighlightStyle("schedule-list")}`} id="schedule-list">
+        <div className="px-5 pb-4">
           <div className="flex items-center justify-between mb-3 px-0.5">
             <h2 className="ios-headline text-[#111827]">자동화 규칙</h2>
             <span className="ios-caption-1 text-[#8E8E93]">{rules.length}개</span>
@@ -102,8 +93,7 @@ export function Scheduler({ onNavigate, onOpenNewSchedule, highlightElement }: S
                     onClick={() => handleToggleRule(rule.id)}
                     className={`w-12 h-7 rounded-full p-0.5 transition-colors ${
                       rule.active ? 'bg-[#34C759]' : 'bg-[#E5E7EB]'
-                    } ${idx === 0 ? getHighlightStyle("schedule-toggle") : ""}`}
-                    id={idx === 0 ? "schedule-toggle" : undefined}
+                    }`}
                   >
                     <div className={`w-6 h-6 bg-white rounded-full transition-transform ${
                       rule.active ? 'translate-x-5' : ''
@@ -119,8 +109,7 @@ export function Scheduler({ onNavigate, onOpenNewSchedule, highlightElement }: S
         <div className="px-5 pb-5">
           <button
             onClick={onOpenNewSchedule}
-            className={`w-full ios-card px-4 py-3.5 flex items-center justify-center gap-2 ios-button-primary transition-all duration-300 ${getHighlightStyle("add-button")}`}
-            id="add-button"
+            className="w-full ios-card px-4 py-3.5 flex items-center justify-center gap-2 ios-button-primary"
           >
             <Plus className="w-5 h-5 text-[#007AFF]" strokeWidth={2.5} />
             <span className="ios-body text-[#007AFF]" style={{ fontWeight: 600 }}>새 규칙 추가</span>

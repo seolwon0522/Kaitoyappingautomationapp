@@ -1,17 +1,9 @@
 interface OnboardingProps {
   onComplete: () => void;
   onConnect: () => void;
-  highlightElement?: string | null;
 }
 
-export function Onboarding({ onComplete, onConnect, highlightElement }: OnboardingProps) {
-  const getHighlightStyle = (elementId: string) => {
-    if (highlightElement === elementId) {
-      return "outline outline-4 outline-red-500 outline-offset-4 shadow-[0_0_20px_rgba(239,68,68,0.5)] relative z-10";
-    }
-    return "";
-  };
-
+export function Onboarding({ onComplete, onConnect }: OnboardingProps) {
   return (
     <div className="flex flex-col items-center justify-between min-h-screen bg-white px-6 py-16">
       <div></div>
@@ -50,8 +42,7 @@ export function Onboarding({ onComplete, onConnect, highlightElement }: Onboardi
       <div className="w-full max-w-sm space-y-3">
         <button
           onClick={onConnect}
-          className={`w-full bg-[#007AFF] text-white py-4 rounded-[14px] shadow-sm ios-button-primary flex items-center justify-center transition-all duration-300 ${getHighlightStyle("connect-button")}`}
-          id="connect-button"
+          className="w-full bg-[#007AFF] text-white py-4 rounded-[14px] shadow-sm ios-button-primary flex items-center justify-center"
         >
           <span className="ios-body text-white" style={{ fontWeight: 600 }}>X 계정 연결하기</span>
         </button>

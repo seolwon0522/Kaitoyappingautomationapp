@@ -6,21 +6,13 @@ interface NewScheduleSheetProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
-  highlightElement?: string | null;
 }
 
-export function NewScheduleSheet({ isOpen, onClose, onSuccess, highlightElement }: NewScheduleSheetProps) {
+export function NewScheduleSheet({ isOpen, onClose, onSuccess }: NewScheduleSheetProps) {
   const [content, setContent] = useState("");
   const [selectedTime, setSelectedTime] = useState("09:00");
   const [autoImage, setAutoImage] = useState(true);
   const [aiGenerate, setAiGenerate] = useState(true);
-
-  const getHighlightStyle = (elementId: string) => {
-    if (highlightElement === elementId) {
-      return "outline outline-4 outline-red-500 outline-offset-4 shadow-[0_0_20px_rgba(239,68,68,0.5)] relative z-10";
-    }
-    return "";
-  };
 
   const handleSubmit = () => {
     onSuccess();
@@ -45,8 +37,7 @@ export function NewScheduleSheet({ isOpen, onClose, onSuccess, highlightElement 
         exit={{ y: "100%" }}
         transition={{ type: "spring", damping: 30, stiffness: 300 }}
         onClick={(e) => e.stopPropagation()}
-        className={`w-full max-w-[393px] bg-white rounded-t-3xl shadow-2xl transition-all duration-300 ${getHighlightStyle("schedule-sheet")}`}
-        id="schedule-sheet"
+        className="w-full max-w-[393px] bg-white rounded-t-3xl shadow-2xl"
       >
         {/* Handle Bar */}
         <div className="flex justify-center pt-3 pb-2">
@@ -67,7 +58,7 @@ export function NewScheduleSheet({ isOpen, onClose, onSuccess, highlightElement 
         {/* Content */}
         <div className="px-4 py-6 max-h-[70vh] overflow-y-auto">
           {/* AI Auto Generate Toggle */}
-          <div className={`mb-6 transition-all duration-300 ${getHighlightStyle("schedule-form")}`} id="schedule-form">
+          <div className="mb-6">
             <div className="flex items-center justify-between p-4 bg-gradient-to-r from-[#007AFF]/10 to-[#5856D6]/10 rounded-xl border border-[#007AFF]/20">
               <div className="flex items-center">
                 <div className="w-10 h-10 bg-gradient-to-br from-[#007AFF] to-[#5856D6] rounded-full flex items-center justify-center mr-3">
@@ -216,8 +207,7 @@ export function NewScheduleSheet({ isOpen, onClose, onSuccess, highlightElement 
           {/* Submit Button */}
           <button
             onClick={handleSubmit}
-            className={`w-full bg-[#007AFF] text-white py-4 rounded-xl ios-button transition-all duration-300 ${getHighlightStyle("save-button")}`}
-            id="save-button"
+            className="w-full bg-[#007AFF] text-white py-4 rounded-xl ios-button"
           >
             예약 완료
           </button>

@@ -1,21 +1,14 @@
 import { ChevronRight, Play, Pause, CheckCircle } from "lucide-react";
 import { useState, useEffect } from "react";
-import { formatDateDot, formatKoreanDateWithWeekday } from "../utils/date";
 
 interface HomeProps {
   onNavigate: (screen: string) => void;
   onApprove: (id: number) => void;
   onOpenEditPost?: (post: any) => void;
-  automationEnabled?: boolean;
-  onToggleAutomation?: () => void;
-  highlightElement?: string | null;
 }
 
-export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled, onToggleAutomation, highlightElement }: HomeProps) {
-  const todayDateStr = formatDateDot();
-
-  // Use prop if provided, otherwise use local state
-  const [isAutomationActive, setIsAutomationActive] = useState(automationEnabled !== undefined ? automationEnabled : true);
+export function Home({ onNavigate, onApprove, onOpenEditPost }: HomeProps) {
+  const [isAutomationActive, setIsAutomationActive] = useState(true);
   const [scheduledPosts, setScheduledPosts] = useState([
     {
       id: 1,
@@ -27,7 +20,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
       scheduledTime: "오후 2:30",
       status: "scheduled",
       eta: "5분 후",
-      date: todayDateStr
+      date: "2025.10.17"
     },
     {
       id: 2,
@@ -39,7 +32,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
       scheduledTime: "오후 3:15",
       status: "scheduled",
       eta: "20분 후",
-      date: todayDateStr
+      date: "2025.10.17"
     },
     {
       id: 3,
@@ -51,7 +44,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
       scheduledTime: "오후 4:00",
       status: "ready",
       eta: "준비완료",
-      date: todayDateStr
+      date: "2025.10.17"
     },
     {
       id: 4,
@@ -63,7 +56,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
       scheduledTime: "오후 5:30",
       status: "scheduled",
       eta: "1시간 후",
-      date: todayDateStr
+      date: "2025.10.17"
     }
   ]);
 
@@ -133,7 +126,7 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
         scheduledTime: randomTime,
         status: "scheduled",
         eta: `${Math.floor(Math.random() * 40) + 10}분 후`,
-        date: todayDateStr
+        date: "2025.10.17"
       };
 
       setScheduledPosts(prev => [...prev, newPost]);
@@ -142,19 +135,8 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
     return () => clearInterval(interval);
   }, [isAutomationActive]);
 
-  // Sync automation state with prop
-  useEffect(() => {
-    if (automationEnabled !== undefined) {
-      setIsAutomationActive(automationEnabled);
-    }
-  }, [automationEnabled]);
-
   const handleToggleAutomation = () => {
-    if (onToggleAutomation) {
-      onToggleAutomation();
-    } else {
-      setIsAutomationActive(!isAutomationActive);
-    }
+    setIsAutomationActive(!isAutomationActive);
   };
 
   const handleCancel = (id: number) => {
@@ -182,18 +164,11 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
     }, 800);
   };
 
-  const getHighlightStyle = (elementId: string) => {
-    if (highlightElement === elementId) {
-      return "shadow-[0_0_0_4px_rgba(239,68,68,1),0_0_20px_rgba(239,68,68,0.5)] rounded-xl relative z-10";
-    }
-    return "";
-  };
-
   return (
     <div className="flex flex-col h-screen bg-[#F9FAFB]">
       {/* Profile Header */}
-      <div className={`bg-white border-b border-[#E5E7EB] px-5 pt-16 pb-4 transition-all duration-300 rounded-b-xl ${getHighlightStyle("automation-card")}`} id="automation-card">
-        <div className="flex items-center justify-between mb-3">
+      <div className="bg-white border-b border-[#E5E7EB] px-5 pt-14 pb-4">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#007AFF] to-[#5856D6] flex items-center justify-center overflow-hidden">
               <img src={userProfile.avatar} alt={userProfile.name} className="w-full h-full" />
@@ -203,47 +178,46 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
               <p className="ios-caption-1 text-[#6B7280]">{userProfile.handle} · {userProfile.followers}</p>
             </div>
           </div>
+          <button 
+            onClick={handleToggleAutomation}
+            className={`px-4 py-2 rounded-full ios-button-primary transition-all ${
+              isAutomationActive ? 'bg-[#FF3B30]' : 'bg-[#007AFF]'
+            }`}
+          >
+            <div className="flex items-center gap-1.5">
+              {isAutomationActive ? (
+                <>
+                  <Pause className="w-4 h-4 text-white" fill="white" />
+                  <span className="ios-footnote text-white" style={{ fontWeight: 600 }}>정지</span>
+                </>
+              ) : (
+                <>
+                  <Play className="w-4 h-4 text-white" fill="white" />
+                  <span className="ios-footnote text-white" style={{ fontWeight: 600 }}>시작</span>
+                </>
+              )}
+            </div>
+          </button>
         </div>
-        <button 
-          onClick={handleToggleAutomation}
-          className={`w-full px-4 py-2.5 rounded-xl ios-button-primary transition-all flex items-center justify-center gap-2 ${
-            isAutomationActive ? 'bg-[#FF3B30]' : 'bg-[#007AFF]'
-          } ${getHighlightStyle("automation-toggle")}`}
-          id="automation-toggle"
-        >
-          <div className="flex items-center gap-1.5">
-            {isAutomationActive ? (
-              <>
-                <Pause className="w-4 h-4 text-white" fill="white" />
-                <span className="ios-footnote text-white" style={{ fontWeight: 600 }}>정지</span>
-              </>
-            ) : (
-              <>
-                <Play className="w-4 h-4 text-white" fill="white" />
-                <span className="ios-footnote text-white" style={{ fontWeight: 600 }}>시작</span>
-              </>
-            )}
-          </div>
-        </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto pb-24 px-4">
+      <div className="flex-1 overflow-y-auto pb-24">
         {/* Status Bar */}
         <div className="bg-white px-5 py-3 border-b border-[#E5E7EB]">
           <div className="flex items-center gap-2">
             <div className={`w-2 h-2 rounded-full transition-all ${isAutomationActive ? 'status-active' : 'status-paused'}`}></div>
             <span className="ios-subhead text-[#6B7280]">
-              {isAutomationActive ? `자동 포스팅 활성화 · ${todayDateStr}` : '일시 정지됨'}
+              {isAutomationActive ? '자동 포스팅 활성화 · 2025.10.17' : '일시 정지됨'}
             </span>
           </div>
         </div>
 
         {/* Today Stats */}
-        <div className={`px-5 pt-5 pb-4 transition-all duration-300 ${getHighlightStyle("metrics-section")}`} id="metrics-section">
-          <div className={`ios-card transition-all duration-300 ${getHighlightStyle("revenue-card")}`} id="revenue-card">
+        <div className="px-5 pt-5 pb-4">
+          <div className="ios-card">
             <div className="px-4 py-3.5 border-b border-[#E5E7EB]">
               <p className="ios-headline text-[#111827]">오늘 요약</p>
-              <p className="ios-caption-1 text-[#8E8E93] mt-0.5">{formatKoreanDateWithWeekday()}</p>
+              <p className="ios-caption-1 text-[#8E8E93] mt-0.5">2025년 10월 17일 목요일</p>
             </div>
             <div className="grid grid-cols-2 divide-x divide-[#E5E7EB]">
               <div className="p-4">
@@ -308,21 +282,20 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
         </div>
 
         {/* Scheduled Posts Queue */}
-        <div className={`px-5 pb-4 transition-all duration-300 ${getHighlightStyle("post-queue")}`} id="post-queue">
+        <div className="px-5 pb-4">
           <div className="flex items-center justify-between mb-3 px-0.5">
             <h2 className="ios-headline text-[#111827]">예약 포스팅</h2>
             <span className="ios-caption-1 text-[#8E8E93]">{scheduledPosts.length}건 대기중</span>
           </div>
           <div className="space-y-3">
-            {scheduledPosts.map((post, index) => (
+            {scheduledPosts.map((post) => (
               <div 
                 key={post.id} 
                 className={`ios-card overflow-hidden transition-all duration-300 ${
                   removingId === post.id ? 'opacity-0 scale-95 -translate-x-4' : 'opacity-100 scale-100'
                 } ${
                   postingId === post.id ? 'ring-2 ring-[#34C759] shadow-lg' : ''
-                } ${index === 0 ? getHighlightStyle("post-card") : ""}`}
-                id={index === 0 ? "post-card" : undefined}
+                }`}
                 style={{
                   animation: 'slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
                 }}
@@ -387,24 +360,21 @@ export function Home({ onNavigate, onApprove, onOpenEditPost, automationEnabled,
                     <button 
                       onClick={() => handleCancel(post.id)}
                       disabled={postingId === post.id}
-                      className={`flex-1 py-2.5 bg-[#F9FAFB] rounded-lg ios-button-primary border border-[#E5E7EB] disabled:opacity-50 flex items-center justify-center transition-all duration-300 ${index === 0 ? getHighlightStyle("cancel-button") : ""}`}
-                      id={index === 0 ? "cancel-button" : undefined}
+                      className="flex-1 py-2.5 bg-[#F9FAFB] rounded-lg ios-button-primary border border-[#E5E7EB] disabled:opacity-50 flex items-center justify-center"
                     >
                       <span className="ios-subhead text-[#111827]" style={{ fontWeight: 500 }}>취소</span>
                     </button>
                     <button 
                       onClick={() => handleEdit(post)}
                       disabled={postingId === post.id}
-                      className={`flex-1 py-2.5 bg-[#F9FAFB] rounded-lg ios-button-primary border border-[#E5E7EB] disabled:opacity-50 flex items-center justify-center transition-all duration-300 ${index === 0 ? getHighlightStyle("edit-button") : ""}`}
-                      id={index === 0 ? "edit-button" : undefined}
+                      className="flex-1 py-2.5 bg-[#F9FAFB] rounded-lg ios-button-primary border border-[#E5E7EB] disabled:opacity-50 flex items-center justify-center"
                     >
                       <span className="ios-subhead text-[#007AFF]" style={{ fontWeight: 600 }}>수정</span>
                     </button>
                     <button
                       onClick={() => handlePostNow(post.id)}
                       disabled={postingId === post.id}
-                      className={`flex-1 py-2.5 bg-[#007AFF] rounded-lg ios-button-primary disabled:opacity-50 flex items-center justify-center transition-all duration-300 ${index === 0 ? getHighlightStyle("approve-button") : ""}`}
-                      id={index === 0 ? "approve-button" : undefined}
+                      className="flex-1 py-2.5 bg-[#007AFF] rounded-lg ios-button-primary disabled:opacity-50 flex items-center justify-center"
                     >
                       <span className="ios-subhead text-white" style={{ fontWeight: 600 }}>
                         {postingId === post.id ? '실행중...' : '지금 포스팅'}
